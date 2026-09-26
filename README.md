@@ -1,37 +1,59 @@
-# ai-testing-portfolio
+# 01 — Account Statement Review
 
-# AI Testing Portfolio — Banking QA
+A Python program that reviews a customer's bank account statement, with automated tests that verify its rules.
 
-Senior banking QA professional (13+ years) building hands-on skills in **Python, data analysis, and AI/ML testing**, with every project grounded in real banking scenarios: payments, fraud, statements, and customer-facing AI.
+## The problem
 
-## Projects
+A reviewer needs a quick summary of a customer's statement: how much came in, how much went out, whether the balance reconciles, and whether any transactions look suspicious.
 
-| # | Project | Skills | Status |
-|---|---------|--------|--------|
-| 01 | [Account Statement Review](01-account-statement-review/) | Python basics, loops, conditions, functions, `assert`, BVA, mutation testing | ✅ Done |
-| 02 | Fraud Detection Model Testing | Pandas, ML metrics, fairness, explainability | 🔄 Planned |
-| 03 | Arabic Banking Chatbot Evaluation | LLM evaluation, hallucination, dialect handling | 🔄 Planned |
+## What the program does
 
----
+| Feature | Rule |
+|---------|------|
+| Totals | Positive amounts are deposits, negative amounts are withdrawals |
+| Closing balance | Opening balance + all transactions |
+| Suspicious transactions | Any single transaction above 5,000 SAR, in either direction |
+| Risk level | `Low` = 0 suspicious, `Review` = 1–2, `High` = 3 or more |
+| Reconciliation | Closing balance must equal opening balance + deposits + withdrawals |
 
-## 01 — Account Statement Review
+## Sample output
 
-A small program that reviews a customer's account statement:
+```
+===================================
+   ACCOUNT STATEMENT REVIEW
+===================================
+Customer:          Yousif
+Opening balance:   7500 SAR
+Transactions:      6
+Total deposits:    8500 SAR
+Total withdrawals: -11600 SAR
+Closing balance:   4400 SAR
+Average txn:       -516.67 SAR
+Suspicious txns:   2
+Risk level:        Review
+Reconciliation:    True
+===================================
+```
 
-- Calculates total deposits, withdrawals, and closing balance
-- Flags suspicious transactions (above 5,000 SAR in either direction)
-- Assigns a risk level: `Low`, `Review`, or `High`
-- Prints a formatted review report
+## Testing approach
 
-### Testing approach
+| Technique | What was tested |
+|-----------|-----------------|
+| Reconciliation | Closing balance of a sample statement |
+| Zero-One-Many | An empty statement returns the opening balance and does not crash |
+| Boundary Value Analysis | `5000` and `-5000` are not suspicious; `5001` and `-5001` are |
+| Equivalence partitioning | One test for each risk level |
+| Mutation testing | Changing `>` to `>=` was caught by the `5000` boundary test |
 
-The logic is split into small functions and verified with automated `assert` tests:
+## Open question
 
-- **Reconciliation:** closing balance must equal opening balance plus all transactions
-- **Boundary Value Analysis:** `5000` (not suspicious), `5001` and `-5001` (suspicious)
-- **Zero-One-Many:** an empty statement must not crash and must return the opening balance
-- **Mutation testing:** changing `>` to `>=` in the suspicious-transaction rule was deliberately introduced and caught by the `5000` boundary test
+The requirement says transactions **above** 5,000 SAR are suspicious, but does not say whether exactly 5,000 SAR should be flagged. The code assumes *above* (`>`). In a real project this would be confirmed with the business analyst.
 
-### How to run
+## How to run
 
-Open the notebook in [Google Colab](https://colab.research.google.com/) and select **Runtime → Run all**.
+1. Open `account_statement_review.ipynb` in [Google Colab](https://colab.research.google.com/)
+2. Select **Runtime → Run all**
+
+## Skills
+
+Python · functions · loops · conditions · `assert` · test design (BVA, equivalence partitioning, Zero-One-Many) · mutation testing
