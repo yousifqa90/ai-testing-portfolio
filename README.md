@@ -42,4 +42,4 @@ Open the notebook in [Google Colab](https://colab.research.google.com/) and sele
 
 Core banking (T24, FLEXCUBE) · GCC payments (Mada, SARIE, SADAD) · Cards · SAMA frameworks
 
-[LinkedIn](#) <!-- replace # with your LinkedIn profile URL -->
+
