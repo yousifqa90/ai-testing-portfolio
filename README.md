@@ -7,7 +7,7 @@ Senior banking QA professional (13+ years) building hands-on skills in **Python,
 | # | Project | Skills | Status |
 |---|---------|--------|--------|
 | 01 | [Account Statement Review](01-account-statement-review/) | Python basics, loops, conditions, functions, `assert`, BVA, mutation testing | ✅ Done |
-| 02 | [Customer Onboarding & AML Screening](02-customer-onboarding-aml/) | Dictionaries, text normalization, sanctions screening, combination testing | 🔄 Logic done · API, DB, UI next |
+| 02 | [Customer Onboarding & AML Screening](02-customer-onboarding-aml/) | Dictionaries, text normalization, sanctions screening, combination testing | 🔄 Logic + API done · DB, UI next |
 | 03 | Card Transaction Authorization | Luhn check, card status, limits, PIN attempts | 📋 Planned |
 | 04 | Fraud Detection Model Testing | Pandas, ML metrics, fairness, Power BI | 📋 Planned |
 | 05 | Arabic Banking Chatbot Evaluation | LLM evaluation, hallucination, dialect handling | 📋 Planned |
