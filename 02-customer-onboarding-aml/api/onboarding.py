@@ -1,8 +1,5 @@
-TODAY = "2026-09-26"
-SANCTIONS_LIST = ["Omar Khalid", "Salem Nasser", "Tariq Mansour"]
-HIGH_RISK_COUNTRIES = ["XA", "XB"]
-
-
+from database import get_high_risk_countries, get_sanctions_names
+TODAY = "2026-10-01"
 def check_eligibility(customer):
     if customer["age"] < 18:
         return "Reject: under 18"
@@ -17,7 +14,7 @@ def normalize(name):
 
 def is_sanctioned(name):
     clean_list = []
-    for s in SANCTIONS_LIST:
+    for s in get_sanctions_names():
         clean_list.append(normalize(s))
     return normalize(name) in clean_list
 
@@ -31,7 +28,7 @@ def get_decision(customer):
         return eligibility
 
     nationality = customer["nationality"].strip().upper()
-    if customer["is_pep"] or nationality in HIGH_RISK_COUNTRIES:
+    if customer["is_pep"] or nationality in get_high_risk_countries():
         return "EDD"
 
     return "Approve"

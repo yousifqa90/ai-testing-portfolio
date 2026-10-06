@@ -1,5 +1,13 @@
 from fastapi.testclient import TestClient
 from main import app
+import pytest
+import database
+
+
+@pytest.fixture(autouse=True)
+def test_db(tmp_path, monkeypatch):
+    monkeypatch.setattr(database, "DB_FILE", str(tmp_path / "test.db"))
+    database.init_db()
 
 client = TestClient(app)
 
@@ -68,3 +76,34 @@ def test_missing_field_is_rejected():
     
 def test_high_risk_country_in_lowercase_needs_edd():
     assert onboard(nationality="xa").json()["decision"] == "EDD"
+
+def test_unknown_country_is_rejected():
+    r = onboard(nationality="ZZ")
+    assert r.status_code == 422
+    assert r.json()["detail"] == "Unknown nationality code"
+
+def test_known_country_in_lowercase_is_accepted():
+    assert onboard(nationality="sa").json()["decision"] == "Approve"
+
+def test_rejected_country_is_not_saved():
+    onboard(nationality="ZZ")
+
+    with database.get_conn() as conn:
+        count = conn.execute("SELECT COUNT(*) FROM customers").fetchone()[0]
+
+    assert count == 0
+
+def test_approved_application_is_saved():
+    r = onboard()
+    application_id = r.json()["application_id"]
+
+    with database.get_conn() as conn:
+        row = conn.execute(
+            """SELECT customers.name, decisions.decision
+               FROM decisions
+               JOIN customers ON customers.id = decisions.customer_id
+               WHERE decisions.id = ?""",
+            (application_id,),
+        ).fetchone()
+
+    assert row == ("Ahmed Ali", "Approve")
