@@ -25,7 +25,7 @@ Sanctions screening runs first so that every sanctions match is recorded with th
 | `customer_onboarding_aml.ipynb` | Phase 1: the logic and 19 unit tests in Google Colab |
 | `api/onboarding.py` | Business rules used by the API |
 | `api/main.py` | FastAPI service with the request contract (`POST /onboard`) |
-| `api/test_api.py` | 13 automated API tests with pytest |
+| `api/test_api.py` | 17 automated API and database tests with pytest |
 | `api/onboarding-api.postman_collection.json` | Postman collection with test scripts |
 | `api/requirements.txt` | Python packages needed |
 
@@ -80,7 +80,7 @@ python -m pytest -v
 - [x] Business logic with unit tests (Colab)
 - [x] REST API with FastAPI
 - [x] Automated API tests (pytest) and Postman collection
-- [ ] SQLite audit table, verified with SQL
+- [x] SQLite database: reference tables, audit trail, isolated test database
 - [ ] Streamlit page, tested with Playwright
 
 ## Skills
